@@ -2,13 +2,19 @@
 
 import ReactMarkdown from "react-markdown";
 import { Message } from "@/types/chat";
+import ContactForm, { detectContactForm, ContactFormData } from "./ContactForm";
 
 interface MessageBubbleProps {
   message: Message;
+  onContactSubmit?: (data: ContactFormData) => void;
 }
 
-export default function MessageBubble({ message }: MessageBubbleProps) {
+export default function MessageBubble({ message, onContactSubmit }: MessageBubbleProps) {
   const isUser = message.role === "user";
+
+  const { preamble, hasForm } = isUser
+    ? { preamble: message.content, hasForm: false }
+    : detectContactForm(message.content);
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
@@ -28,26 +34,31 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
         {isUser ? (
           message.content
         ) : (
-          <ReactMarkdown
-            components={{
-              p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-              strong: ({ children }) => (
-                <strong className="font-semibold">{children}</strong>
-              ),
-              a: ({ href, children }) => (
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-400 underline hover:text-blue-300"
-                >
-                  {children}
-                </a>
-              ),
-            }}
-          >
-            {message.content}
-          </ReactMarkdown>
+          <>
+            <ReactMarkdown
+              components={{
+                p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                strong: ({ children }) => (
+                  <strong className="font-semibold">{children}</strong>
+                ),
+                a: ({ href, children }) => (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 underline hover:text-blue-300"
+                  >
+                    {children}
+                  </a>
+                ),
+              }}
+            >
+              {hasForm ? preamble : message.content}
+            </ReactMarkdown>
+            {hasForm && onContactSubmit && (
+              <ContactForm onSubmit={onContactSubmit} />
+            )}
+          </>
         )}
       </div>
     </div>

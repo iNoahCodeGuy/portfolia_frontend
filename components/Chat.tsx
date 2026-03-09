@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Message } from "@/types/chat";
 import { sendMessage } from "@/lib/api";
 import WelcomeScreen from "./WelcomeScreen";
 import MessageBubble from "./MessageBubble";
 import ChatInput from "./ChatInput";
+import { ContactFormData } from "./ContactForm";
 
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -57,6 +58,23 @@ export default function Chat() {
     }
   };
 
+  const handleContactSubmit = useCallback(
+    (data: ContactFormData) => {
+      const formatted = [
+        `Name: ${data.name}`,
+        data.phone ? `Number: ${data.phone}` : null,
+        `Email: ${data.email}`,
+        data.company ? `Company: ${data.company}` : null,
+        data.additional ? `Additional information: ${data.additional}` : null,
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      handleSendMessage(formatted);
+    },
+    [sessionId],
+  );
+
   return (
     <div className="flex flex-col h-full">
       {/* Chat messages area */}
@@ -66,7 +84,11 @@ export default function Chat() {
         ) : (
           <div className="mx-auto max-w-3xl px-4 py-6 flex flex-col gap-4">
             {messages.map((msg) => (
-              <MessageBubble key={msg.id} message={msg} />
+              <MessageBubble
+                key={msg.id}
+                message={msg}
+                onContactSubmit={handleContactSubmit}
+              />
             ))}
             {isLoading && (
               <div className="flex justify-start">
