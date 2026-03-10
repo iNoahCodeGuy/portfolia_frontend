@@ -7,6 +7,7 @@ import WelcomeScreen from "./WelcomeScreen";
 import MessageBubble from "./MessageBubble";
 import ChatInput from "./ChatInput";
 import { ContactFormData } from "./ContactForm";
+import { CrushFormData } from "./CrushForm";
 
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -75,6 +76,19 @@ export default function Chat() {
     [sessionId],
   );
 
+  const handleCrushSubmit = useCallback(
+    (data: CrushFormData) => {
+      const formatted = [
+        `Name: ${data.name}`,
+        `Number or social: ${data.contact}`,
+        `Message for Noah: ${data.message}`,
+      ].join("\n");
+
+      handleSendMessage(formatted);
+    },
+    [sessionId],
+  );
+
   return (
     <div className="flex flex-col h-full">
       {/* Chat messages area */}
@@ -88,6 +102,7 @@ export default function Chat() {
                 key={msg.id}
                 message={msg}
                 onContactSubmit={handleContactSubmit}
+                onCrushSubmit={handleCrushSubmit}
               />
             ))}
             {isLoading && (

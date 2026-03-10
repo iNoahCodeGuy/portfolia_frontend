@@ -15,27 +15,36 @@ export interface ContactFormData {
   additional: string;
 }
 
-export function detectContactForm(content: string): {
+export type FormType = "contact" | "crush" | null;
+
+export function detectForm(content: string): {
   preamble: string;
-  hasForm: boolean;
+  formType: FormType;
 } {
-  // Detect the capture pattern: message contains "Name:" and "Email:" and "Company:"
+  // Crush form: has "Message for Noah:" marker
+  const isCrush = /Message for Noah\s*:/i.test(content);
+
+  // Contact form: has Name + Email + Company
   const hasName = /\bName\s*:/i.test(content);
   const hasEmail = /\bEmail\s*:/i.test(content);
   const hasCompany = /\bCompany\s*:/i.test(content);
+  const isContact = hasName && hasEmail && hasCompany;
 
-  if (!hasName || !hasEmail || !hasCompany) {
-    return { preamble: content, hasForm: false };
+  if (!isCrush && !isContact) {
+    return { preamble: content, formType: null };
   }
 
   // Strip the form fields from the message to get the preamble text
-  // The form portion typically starts at "Name:" or a line before it
+  const formFieldPattern = isCrush
+    ? /\b(Name|Number|Phone|Contact|Social|Message)\s*(?:or social|for Noah)?\s*:/i
+    : /\b(Name|Number|Phone|Email|Company|Additional|How did you find)\s*:/i;
+
   const lines = content.split("\n");
   const preambleLines: string[] = [];
   let hitForm = false;
 
   for (const line of lines) {
-    if (!hitForm && /\b(Name|Number|Phone|Email|Company|Additional)\s*:/i.test(line)) {
+    if (!hitForm && formFieldPattern.test(line)) {
       hitForm = true;
       continue;
     }
@@ -44,7 +53,16 @@ export function detectContactForm(content: string): {
   }
 
   const preamble = preambleLines.join("\n").trim();
-  return { preamble, hasForm: true };
+  return { preamble, formType: isCrush ? "crush" : "contact" };
+}
+
+/** @deprecated Use detectForm instead */
+export function detectContactForm(content: string): {
+  preamble: string;
+  hasForm: boolean;
+} {
+  const { preamble, formType } = detectForm(content);
+  return { preamble, hasForm: formType === "contact" };
 }
 
 export default function ContactForm({ onSubmit, disabled }: ContactFormProps) {

@@ -3,19 +3,21 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Message } from "@/types/chat";
-import ContactForm, { detectContactForm, ContactFormData } from "./ContactForm";
+import ContactForm, { detectForm, ContactFormData } from "./ContactForm";
+import CrushForm, { CrushFormData } from "./CrushForm";
 
 interface MessageBubbleProps {
   message: Message;
   onContactSubmit?: (data: ContactFormData) => void;
+  onCrushSubmit?: (data: CrushFormData) => void;
 }
 
-export default function MessageBubble({ message, onContactSubmit }: MessageBubbleProps) {
+export default function MessageBubble({ message, onContactSubmit, onCrushSubmit }: MessageBubbleProps) {
   const isUser = message.role === "user";
 
-  const { preamble, hasForm } = isUser
-    ? { preamble: message.content, hasForm: false }
-    : detectContactForm(message.content);
+  const { preamble, formType } = isUser
+    ? { preamble: message.content, formType: null as null }
+    : detectForm(message.content);
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
@@ -126,10 +128,13 @@ export default function MessageBubble({ message, onContactSubmit }: MessageBubbl
                 hr: () => <hr className="border-zinc-700 my-3" />,
               }}
             >
-              {hasForm ? preamble : message.content}
+              {formType ? preamble : message.content}
             </ReactMarkdown>
-            {hasForm && onContactSubmit && (
+            {formType === "contact" && onContactSubmit && (
               <ContactForm onSubmit={onContactSubmit} />
+            )}
+            {formType === "crush" && onCrushSubmit && (
+              <CrushForm onSubmit={onCrushSubmit} />
             )}
           </>
         )}
