@@ -6,6 +6,10 @@ html,
 body,
 #__next {
   height: 100%;
+}
+
+/* Lock scroll on chat page only — dashboard needs to scroll */
+body:has(.chat-scroll) {
   overflow: hidden;
 }
 
