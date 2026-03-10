@@ -285,6 +285,88 @@ export default function Dashboard() {
           />
         </div>
 
+        {/* Leads & Crushes */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-6">
+            <div className="flex items-center gap-2 mb-5">
+              <UserCheck className="w-4 h-4 text-green-400" />
+              <h2 className="font-semibold text-zinc-100 text-sm">Captured Leads</h2>
+              <span className="text-xs text-zinc-500 ml-auto">{data.leads.length} total</span>
+            </div>
+            <div className="space-y-3 max-h-[500px] overflow-y-auto">
+              {data.leads.length === 0 ? (
+                <p className="text-zinc-500 text-sm text-center py-8">No leads captured yet</p>
+              ) : (
+                data.leads.map((lead, i) => (
+                  <div key={i} className="bg-zinc-900 border border-zinc-700/50 rounded-lg p-4 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-zinc-100">
+                        {lead.name || 'No name'}
+                      </span>
+                      <span className="text-xs text-zinc-500">
+                        {new Date(lead.created_at).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
+                      </span>
+                    </div>
+                    {lead.company && (
+                      <p className="text-xs text-zinc-400">{lead.company}</p>
+                    )}
+                    <div className="flex flex-wrap gap-2 text-xs">
+                      {lead.email && (
+                        <a href={`mailto:${lead.email}`} className="text-zinc-300 hover:text-zinc-100 underline transition-colors">
+                          {lead.email}
+                        </a>
+                      )}
+                      {lead.phone && (
+                        <a href={`tel:${lead.phone}`} className="text-zinc-400 hover:text-zinc-200 transition-colors">
+                          {lead.phone}
+                        </a>
+                      )}
+                    </div>
+                    {lead.referral_source && (
+                      <p className="text-xs text-zinc-500">Found via: {lead.referral_source}</p>
+                    )}
+                    {lead.message && (
+                      <p className="text-xs text-zinc-400 italic">{lead.message}</p>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-6">
+            <div className="flex items-center gap-2 mb-5">
+              <Heart className="w-4 h-4 text-pink-400" />
+              <h2 className="font-semibold text-zinc-100 text-sm">Crush Confessions</h2>
+              <span className="text-xs text-zinc-500 ml-auto">{data.crushes.length} total</span>
+            </div>
+            <div className="space-y-3 max-h-[500px] overflow-y-auto">
+              {data.crushes.length === 0 ? (
+                <p className="text-zinc-500 text-sm text-center py-8">No confessions yet</p>
+              ) : (
+                data.crushes.map((crush, i) => (
+                  <div key={i} className="bg-zinc-900 border border-zinc-700/50 rounded-lg p-4 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-zinc-100">
+                        {crush.anonymous ? 'Anonymous' : (crush.name || 'No name')}
+                      </span>
+                      <span className="text-xs text-zinc-500">
+                        {new Date(crush.created_at).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
+                      </span>
+                    </div>
+                    {!crush.anonymous && crush.contact && (
+                      <p className="text-xs text-zinc-400">{crush.contact}</p>
+                    )}
+                    {crush.message && (
+                      <p className="text-xs text-zinc-300 italic">{crush.message}</p>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* Charts Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-6">
@@ -417,85 +499,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Leads & Crushes */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-6">
-            <div className="flex items-center gap-2 mb-5">
-              <UserCheck className="w-4 h-4 text-green-400" />
-              <h2 className="font-semibold text-zinc-100 text-sm">Captured Leads</h2>
-              <span className="text-xs text-zinc-500 ml-auto">{data.leads.length} total</span>
-            </div>
-            <div className="space-y-3 max-h-[400px] overflow-y-auto">
-              {data.leads.length === 0 ? (
-                <p className="text-zinc-500 text-sm text-center py-8">No leads captured yet</p>
-              ) : (
-                data.leads.map((lead, i) => (
-                  <div key={i} className="bg-zinc-900 border border-zinc-700/50 rounded-lg p-4 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-zinc-100">
-                        {lead.name || 'No name'}
-                      </span>
-                      <span className="text-xs text-zinc-500">
-                        {new Date(lead.created_at).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
-                      </span>
-                    </div>
-                    {lead.company && (
-                      <p className="text-xs text-zinc-400">{lead.company}</p>
-                    )}
-                    <div className="flex flex-wrap gap-2 text-xs">
-                      {lead.email && (
-                        <a href={`mailto:${lead.email}`} className="text-zinc-300 hover:text-zinc-100 underline transition-colors">
-                          {lead.email}
-                        </a>
-                      )}
-                      {lead.phone && (
-                        <span className="text-zinc-400">{lead.phone}</span>
-                      )}
-                    </div>
-                    {lead.referral_source && (
-                      <p className="text-xs text-zinc-500">Found via: {lead.referral_source}</p>
-                    )}
-                    {lead.message && (
-                      <p className="text-xs text-zinc-400 italic truncate">{lead.message}</p>
-                    )}
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-
-          <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-6">
-            <div className="flex items-center gap-2 mb-5">
-              <Heart className="w-4 h-4 text-pink-400" />
-              <h2 className="font-semibold text-zinc-100 text-sm">Crush Confessions</h2>
-              <span className="text-xs text-zinc-500 ml-auto">{data.crushes.length} total</span>
-            </div>
-            <div className="space-y-3 max-h-[400px] overflow-y-auto">
-              {data.crushes.length === 0 ? (
-                <p className="text-zinc-500 text-sm text-center py-8">No confessions yet</p>
-              ) : (
-                data.crushes.map((crush, i) => (
-                  <div key={i} className="bg-zinc-900 border border-zinc-700/50 rounded-lg p-4 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-zinc-100">
-                        {crush.anonymous ? 'Anonymous' : (crush.name || 'No name')}
-                      </span>
-                      <span className="text-xs text-zinc-500">
-                        {new Date(crush.created_at).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
-                      </span>
-                    </div>
-                    {!crush.anonymous && crush.contact && (
-                      <p className="text-xs text-zinc-400">{crush.contact}</p>
-                    )}
-                    {crush.message && (
-                      <p className="text-xs text-zinc-300 italic">{crush.message}</p>
-                    )}
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
       </main>
     </div>
   )
