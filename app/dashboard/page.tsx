@@ -394,7 +394,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Depth + Recent Row */}
+        {/* Depth */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-6">
             <div className="flex items-center gap-2 mb-5">
@@ -403,13 +403,16 @@ export default function Dashboard() {
             </div>
             <DepthGauge distribution={data.depthDistribution} />
           </div>
+        </div>
 
-          <div className="lg:col-span-2 bg-zinc-800 border border-zinc-700 rounded-xl p-6">
-            <div className="flex items-center gap-2 mb-5">
-              <MessageSquare className="w-4 h-4 text-zinc-400" />
-              <h2 className="font-semibold text-zinc-100 text-sm">Recent Conversations</h2>
-            </div>
-            <div className="space-y-2 max-h-[400px] overflow-y-auto">
+        {/* All Conversations */}
+        <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-6">
+          <div className="flex items-center gap-2 mb-5">
+            <MessageSquare className="w-4 h-4 text-zinc-400" />
+            <h2 className="font-semibold text-zinc-100 text-sm">All Conversations</h2>
+            <span className="text-xs text-zinc-500 ml-auto">{data.recent.length} total</span>
+          </div>
+          <div className="space-y-2 max-h-[600px] overflow-y-auto">
               {data.recent.length === 0 ? (
                 <p className="text-zinc-500 text-sm text-center py-8">No conversations yet</p>
               ) : (
@@ -495,7 +498,6 @@ export default function Dashboard() {
                   </div>
                 ))
               )}
-            </div>
           </div>
         </div>
 

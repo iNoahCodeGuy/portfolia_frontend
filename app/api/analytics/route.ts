@@ -62,8 +62,8 @@ export async function GET() {
       depthDist[d] = (depthDist[d] || 0) + 1
     })
 
-    // Recent conversations (last 10)
-    const recent = all.slice(0, 10).map(r => ({
+    // All conversations (newest first)
+    const recent = all.map(r => ({
       session_id: r.session_id,
       role: r.role,
       visitor_type: r.visitor_type,
@@ -82,14 +82,12 @@ export async function GET() {
       .from('recruiter_leads')
       .select('*')
       .order('created_at', { ascending: false })
-      .limit(20)
 
     // Fetch crush confessions
     const { data: crushes } = await supabase
       .from('crush_confessions')
       .select('*')
       .order('created_at', { ascending: false })
-      .limit(20)
 
     return NextResponse.json({
       totalConversations,
