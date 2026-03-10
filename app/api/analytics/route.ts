@@ -3,6 +3,8 @@ import { createClient } from '@supabase/supabase-js'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const fetchCache = 'force-no-store'
 
 function getSupabase() {
   const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || ''
@@ -14,11 +16,12 @@ export async function GET() {
   try {
     const supabase = getSupabase()
 
-    // Fetch all sessions
+    // Fetch all sessions (explicit limit to override PostgREST default page size)
     const { data: sessions, error: sessErr } = await supabase
       .from('conversation_sessions')
       .select('*')
       .order('started_at', { ascending: false })
+      .limit(10000)
 
     if (sessErr) throw sessErr
 
@@ -116,6 +119,12 @@ export async function GET() {
         message: c.message,
         created_at: c.created_at,
       })),
+    }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        'CDN-Cache-Control': 'no-store',
+        'Vercel-CDN-Cache-Control': 'no-store',
+      },
     })
   } catch (error) {
     console.error('Analytics API error:', error)

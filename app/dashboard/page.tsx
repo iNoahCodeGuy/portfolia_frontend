@@ -198,7 +198,7 @@ export default function Dashboard() {
 
   const fetchData = () => {
     setLoading(true)
-    fetch('/api/analytics')
+    fetch('/api/analytics', { cache: 'no-store' })
       .then(r => r.json())
       .then(d => {
         if (d.error) throw new Error(d.error)
