@@ -89,8 +89,37 @@ export default function Chat() {
     [sessionId],
   );
 
+  const handleReset = () => {
+    setMessages([]);
+    setSessionId(null);
+  };
+
   return (
     <div className="flex flex-col h-full">
+      {/* Header with home button */}
+      {!showWelcome && (
+        <div className="flex items-center px-4 py-2 border-b border-zinc-800">
+          <button
+            onClick={handleReset}
+            className="flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                fillRule="evenodd"
+                d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Start over
+          </button>
+        </div>
+      )}
+
       {/* Chat messages area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto chat-scroll">
         {showWelcome ? (
