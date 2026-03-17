@@ -25,6 +25,14 @@ export default function Chat() {
     }
   }, [messages]);
 
+  // Menu button texts that should be sent as role to the backend
+  const MENU_BUTTONS = new Set([
+    "Learn more about Noah",
+    "See what Noah has built",
+    "How I relate to Enterprise AI",
+    "Confess a crush",
+  ]);
+
   const handleSendMessage = async (content: string) => {
     const userMessage: Message = {
       id: crypto.randomUUID(),
@@ -36,7 +44,8 @@ export default function Chat() {
     setIsLoading(true);
 
     try {
-      const result = await sendMessage(content, sessionId);
+      const role = MENU_BUTTONS.has(content) ? content : undefined;
+      const result = await sendMessage(content, sessionId, role);
       setSessionId(result.sessionId);
 
       const assistantMessage: Message = {
