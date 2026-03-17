@@ -3,8 +3,8 @@ const MOCK_RESPONSES: Record<string, string> = {
     "Inside Sales Advisor at Tesla Las Vegas since November 2024. Plaid Club, top 10% performer. Before that: Logistics Account Executive at TQL — freight operations, carrier relationships, tight deadlines. Before that: Real Estate Agent at Signature Real Estate Group. Foundation is a Biology degree from UNLV with biostatistics and experimental design. The career path makes more sense when you hear the through-line — what's bringing you to the portfolio?",
   "See what Noah has built":
     "Python, SQL, Tableau, Git. The interesting part is where the quantitative foundation comes from — not a CS program, but a Biology degree from UNLV. Biostatistics, hypothesis testing, experimental design. The projects are where it shows: a 22-node RAG pipeline (you're using it), a logistic regression model that hit 94.75% accuracy, a statistical analysis app in Streamlit, and a lead response heatmap. What's bringing you here — hiring, or recon?",
-  "Just looking around":
-    "No agenda required. I know about Noah's projects, his career background, his technical stack, and there's an MMA coaching story that's better than you'd expect. Ask whatever you want.",
+  "How I relate to Enterprise AI":
+    "You're talking to one right now. I'm a 21-node agentic pipeline — intent classification, semantic retrieval, grounding validation, hallucination checking, and deterministic tool execution. Every pattern in this system maps directly to enterprise AI applications. Pick any layer and I'll show you how the pattern transfers to enterprise scale.",
   "Confess a crush":
     "Didn't expect anyone to actually pick this one. Respect the commitment though. I can let Noah know someone came through with intentions. Two options: stay anonymous and I tell him he's got a secret admirer, or reveal yourself — drop a name and a way to reach you. What's it gonna be?",
 };

@@ -5,7 +5,7 @@ import { MenuOption } from "@/types/chat";
 const MENU_OPTIONS: MenuOption[] = [
   { label: "Learn more about Noah", message: "Learn more about Noah" },
   { label: "See what Noah has built", message: "See what Noah has built" },
-  { label: "Just looking around", message: "Just looking around" },
+  { label: "How I relate to Enterprise AI", message: "How I relate to Enterprise AI" },
   { label: "Confess a crush", message: "Confess a crush" },
 ];
 
