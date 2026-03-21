@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { Message } from "@/types/chat";
 import { sendMessage } from "@/lib/api";
 import WelcomeScreen from "./WelcomeScreen";
 import MessageBubble from "./MessageBubble";
 import ChatInput from "./ChatInput";
-import { ContactFormData } from "./ContactForm";
+import { ContactFormData, detectForm } from "./ContactForm";
 import { CrushFormData } from "./CrushForm";
 
 export default function Chat() {
@@ -16,6 +16,14 @@ export default function Chat() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const showWelcome = messages.length === 0;
+
+  // True when the last assistant message contains a form that hasn't been submitted yet
+  const formActive = useMemo(() => {
+    if (messages.length === 0) return false;
+    const last = messages[messages.length - 1];
+    if (last.role !== "assistant") return false;
+    return detectForm(last.content).formType !== null;
+  }, [messages]);
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -162,7 +170,11 @@ export default function Chat() {
       </div>
 
       {/* Input bar */}
-      <ChatInput onSend={handleSendMessage} disabled={isLoading} />
+      <ChatInput
+        onSend={handleSendMessage}
+        disabled={isLoading || formActive}
+        placeholder={formActive ? "Please fill out the form above first" : undefined}
+      />
     </div>
   );
 }
