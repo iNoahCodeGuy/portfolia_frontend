@@ -1,5 +1,17 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://noahdelacalzada.com"),
@@ -25,6 +37,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#0a0a0d",
 };
 
 export default function RootLayout({
@@ -34,7 +47,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-zinc-900 text-zinc-100 h-screen">
+      <body
+        className={`${inter.variable} ${jetbrainsMono.variable} ${fraunces.variable} bg-chat-bg font-sans text-zinc-100 antialiased h-screen`}
+      >
         {children}
       </body>
     </html>

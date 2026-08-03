@@ -8,11 +8,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'chat-bg': '#0A0A0A',
-        'chat-surface': '#1A1A1A',
-        'chat-border': '#2A2A2A',
+        'chat-bg': '#0A0A0D',
+        'chat-surface': '#15151B',
+        'chat-surface-2': '#1C1C24',
+        'chat-border': '#26262F',
         'chat-primary': '#8B5CF6',
         'chat-secondary': '#EC4899',
+      },
+      fontFamily: {
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        display: ['var(--font-display)', 'Georgia', 'serif'],
       },
     },
   },
