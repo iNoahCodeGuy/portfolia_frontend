@@ -28,9 +28,12 @@ body:has(.chat-scroll) {
   }
 
   /* One-shot entrance for messages, cards, and hero blocks. Runs on mount
-     only — existing messages keep stable keys, so they never re-animate. */
+     only — existing messages keep stable keys, so they never re-animate.
+     Fill mode must be `backwards`, not `both`: it still hides delay-staggered
+     elements before they start, but releases the animation's `transform: none`
+     at finish so hover transforms on the same element can apply. */
   .anim-fade-up {
-    animation: fade-up 0.45s cubic-bezier(0.21, 1.02, 0.73, 1) both;
+    animation: fade-up 0.45s cubic-bezier(0.21, 1.02, 0.73, 1) backwards;
   }
 }
 

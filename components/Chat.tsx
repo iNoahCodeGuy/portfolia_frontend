@@ -129,7 +129,7 @@ export default function Chat() {
             <PortfoliaMark size="sm" />
             <div className="leading-tight">
               <span className="block text-sm font-medium text-zinc-100">Portfolia</span>
-              <span className="block text-[11px] text-zinc-500">
+              <span className="block text-[11px] text-zinc-400">
                 Noah&apos;s AI portfolio
               </span>
             </div>
@@ -138,7 +138,8 @@ export default function Chat() {
             onClick={handleReset}
             className="flex items-center gap-1.5 rounded-lg border border-transparent px-2.5 py-1.5
                        text-xs text-zinc-400 transition-colors hover:border-chat-border
-                       hover:bg-chat-surface hover:text-zinc-100"
+                       hover:bg-chat-surface hover:text-zinc-100 focus-visible:outline-none
+                       focus-visible:ring-2 focus-visible:ring-chat-primary/60"
           >
             <RotateCcw className="h-3.5 w-3.5" strokeWidth={1.75} />
             Start over
@@ -161,13 +162,19 @@ export default function Chat() {
               />
             ))}
             {isLoading && (
-              <div className="anim-fade-up flex gap-3">
+              // role="status" makes the live region announce the sr-only text;
+              // the visible label and dots are decorative duplicates of it.
+              <div className="anim-fade-up flex gap-3" role="status">
                 <PortfoliaMark />
                 <div className="pt-0.5">
-                  <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+                  <span
+                    aria-hidden="true"
+                    className="mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-400"
+                  >
                     Portfolia
                   </span>
-                  <span className="flex h-4 items-center gap-1" aria-label="Portfolia is typing">
+                  <span className="sr-only">Portfolia is typing…</span>
+                  <span className="flex h-4 items-center gap-1" aria-hidden="true">
                     <span className="typing-dot" />
                     <span className="typing-dot" />
                     <span className="typing-dot" />

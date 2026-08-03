@@ -80,7 +80,7 @@ export default function WelcomeScreen({ onSelectOption }: WelcomeScreenProps) {
                 <span className="block text-sm font-medium text-zinc-100">
                   {option.label}
                 </span>
-                <span className="mt-0.5 block text-xs leading-snug text-zinc-500">
+                <span className="mt-0.5 block text-xs leading-snug text-zinc-400">
                   {option.description}
                 </span>
               </span>

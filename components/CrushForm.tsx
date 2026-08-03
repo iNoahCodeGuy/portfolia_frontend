@@ -83,7 +83,7 @@ export default function CrushForm({ onSubmit, disabled }: CrushFormProps) {
       <button
         type="submit"
         disabled={disabled || !form.message.trim()}
-        className="mt-1 self-start rounded-lg bg-chat-secondary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-pink-400 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-chat-secondary"
+        className="mt-1 self-start rounded-lg bg-pink-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-pink-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-pink-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-chat-surface"
       >
         Submit
       </button>

@@ -43,7 +43,7 @@ export default function MessageBubble({ message, onContactSubmit, onCrushSubmit 
     <div className="anim-fade-up flex gap-3">
       <PortfoliaMark />
       <div className="min-w-0 flex-1 pt-0.5">
-        <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+        <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-400">
           Portfolia
         </span>
         <div className="max-w-none text-sm leading-relaxed text-zinc-200">

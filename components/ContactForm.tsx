@@ -143,7 +143,7 @@ export default function ContactForm({ onSubmit, disabled }: ContactFormProps) {
       <button
         type="submit"
         disabled={disabled || !form.name.trim() || !form.email.trim()}
-        className="mt-1 self-start rounded-lg bg-chat-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-violet-400 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-chat-primary"
+        className="mt-1 self-start rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-violet-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-chat-surface"
       >
         Submit
       </button>

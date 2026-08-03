@@ -65,13 +65,15 @@ export default function ChatInput({ onSend, disabled, placeholder }: ChatInputPr
             disabled={disabled || !input.trim()}
             aria-label="Send message"
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-chat-primary
-                       text-white transition-all hover:bg-violet-400 disabled:opacity-30
-                       disabled:hover:bg-chat-primary"
+                       text-white transition-all hover:bg-violet-600 disabled:opacity-30
+                       disabled:hover:bg-chat-primary focus-visible:outline-none
+                       focus-visible:ring-2 focus-visible:ring-white/80
+                       focus-visible:ring-offset-2 focus-visible:ring-offset-chat-surface"
           >
             <ArrowUp className="h-4 w-4" strokeWidth={2} />
           </button>
         </div>
-        <p className="mt-2 hidden text-center font-mono text-[10px] uppercase tracking-[0.25em] text-zinc-600 sm:block">
+        <p className="mt-2 hidden text-center font-mono text-[10px] uppercase tracking-[0.25em] text-zinc-400 sm:block">
           Enter to send&nbsp;&middot;&nbsp;Shift+Enter for a new line
         </p>
       </div>
