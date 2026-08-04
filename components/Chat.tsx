@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { RotateCcw } from "lucide-react";
 import { Message } from "@/types/chat";
 import { sendMessage } from "@/lib/api";
 import WelcomeScreen from "./WelcomeScreen";
 import MessageBubble from "./MessageBubble";
 import ChatInput from "./ChatInput";
+import PortfoliaMark from "./PortfoliaMark";
 import { ContactFormData, detectForm } from "./ContactForm";
 import { CrushFormData } from "./CrushForm";
 
@@ -120,28 +122,29 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Header with home button */}
+      {/* Header with identity + reset */}
       {!showWelcome && (
-        <div className="flex items-center px-4 py-2 border-b border-zinc-800">
+        <header className="flex items-center justify-between border-b border-chat-border/60 bg-chat-bg/80 px-4 py-2.5 backdrop-blur">
+          <div className="flex items-center gap-2.5">
+            <PortfoliaMark size="sm" />
+            <div className="leading-tight">
+              <span className="block text-sm font-medium text-zinc-100">Portfolia</span>
+              <span className="block text-[11px] text-zinc-400">
+                Noah&apos;s AI portfolio
+              </span>
+            </div>
+          </div>
           <button
             onClick={handleReset}
-            className="flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+            className="flex items-center gap-1.5 rounded-lg border border-transparent px-2.5 py-1.5
+                       text-xs text-zinc-400 transition-colors hover:border-chat-border
+                       hover:bg-chat-surface hover:text-zinc-100 focus-visible:outline-none
+                       focus-visible:ring-2 focus-visible:ring-chat-primary/60"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="w-4 h-4"
-            >
-              <path
-                fillRule="evenodd"
-                d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <RotateCcw className="h-3.5 w-3.5" strokeWidth={1.75} />
             Start over
           </button>
-        </div>
+        </header>
       )}
 
       {/* Chat messages area */}
@@ -149,7 +152,7 @@ export default function Chat() {
         {showWelcome ? (
           <WelcomeScreen onSelectOption={handleSendMessage} />
         ) : (
-          <div className="mx-auto max-w-3xl px-4 py-6 flex flex-col gap-4">
+          <div className="mx-auto max-w-3xl px-4 py-6 flex flex-col gap-6">
             {messages.map((msg) => (
               <MessageBubble
                 key={msg.id}
@@ -159,15 +162,22 @@ export default function Chat() {
               />
             ))}
             {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-zinc-800 rounded-2xl rounded-bl-md px-4 py-3 text-sm text-zinc-400">
-                  <span className="block text-xs font-medium text-zinc-400 mb-1">
+              // role="status" makes the live region announce the sr-only text;
+              // the visible label and dots are decorative duplicates of it.
+              <div className="anim-fade-up flex gap-3" role="status">
+                <PortfoliaMark />
+                <div className="pt-0.5">
+                  <span
+                    aria-hidden="true"
+                    className="mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-400"
+                  >
                     Portfolia
                   </span>
-                  <span className="inline-flex gap-1">
-                    <span className="animate-pulse">.</span>
-                    <span className="animate-pulse [animation-delay:200ms]">.</span>
-                    <span className="animate-pulse [animation-delay:400ms]">.</span>
+                  <span className="sr-only">Portfolia is typing…</span>
+                  <span className="flex h-4 items-center gap-1" aria-hidden="true">
+                    <span className="typing-dot" />
+                    <span className="typing-dot" />
+                    <span className="typing-dot" />
                   </span>
                 </div>
               </div>

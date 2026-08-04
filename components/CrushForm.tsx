@@ -32,16 +32,24 @@ export default function CrushForm({ onSubmit, disabled }: CrushFormProps) {
     onSubmit(form);
   };
 
+  const inputClass =
+    "rounded-lg border border-chat-border bg-chat-bg/60 px-3 py-2 text-sm text-zinc-100 " +
+    "placeholder-zinc-500 outline-none transition-colors focus:border-chat-secondary/60 " +
+    "focus:ring-1 focus:ring-chat-secondary/40";
+
   if (submitted) {
     return (
-      <div className="mt-3 rounded-xl bg-zinc-700/50 px-4 py-3 text-sm text-zinc-300">
+      <div className="mt-3 max-w-md rounded-2xl border border-chat-border bg-chat-surface px-4 py-3 text-sm text-zinc-300">
         Submitted. Noah knows.
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-3 flex flex-col gap-2">
+    <form
+      onSubmit={handleSubmit}
+      className="mt-3 flex max-w-md flex-col gap-2 rounded-2xl border border-chat-border bg-chat-surface p-4"
+    >
       <input
         type="text"
         aria-label="Name"
@@ -49,7 +57,7 @@ export default function CrushForm({ onSubmit, disabled }: CrushFormProps) {
         value={form.name}
         onChange={(e) => handleChange("name", e.target.value)}
         disabled={disabled}
-        className="rounded-lg bg-zinc-700 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-400 outline-none focus:ring-1 focus:ring-blue-500"
+        className={inputClass}
       />
       <input
         type="text"
@@ -58,7 +66,7 @@ export default function CrushForm({ onSubmit, disabled }: CrushFormProps) {
         value={form.contact}
         onChange={(e) => handleChange("contact", e.target.value)}
         disabled={disabled}
-        className="rounded-lg bg-zinc-700 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-400 outline-none focus:ring-1 focus:ring-blue-500"
+        className={inputClass}
       />
       <textarea
         aria-label="Message for Noah"
@@ -67,7 +75,7 @@ export default function CrushForm({ onSubmit, disabled }: CrushFormProps) {
         onChange={(e) => handleChange("message", e.target.value)}
         disabled={disabled}
         rows={3}
-        className="rounded-lg bg-zinc-700 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-400 outline-none focus:ring-1 focus:ring-blue-500 resize-none"
+        className={`${inputClass} resize-none`}
       />
       <p className="text-xs text-zinc-500">
         Want to stay anonymous? Just leave name and contact info blank.
@@ -75,7 +83,7 @@ export default function CrushForm({ onSubmit, disabled }: CrushFormProps) {
       <button
         type="submit"
         disabled={disabled || !form.message.trim()}
-        className="mt-1 self-start rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        className="mt-1 self-start rounded-lg bg-pink-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-pink-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-pink-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-chat-surface"
       >
         Submit
       </button>

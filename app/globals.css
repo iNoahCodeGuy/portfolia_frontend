@@ -8,6 +8,15 @@ body,
   height: 100%;
 }
 
+/* Ambient canvas: near-black with a faint violet glow bleeding in from the top */
+body {
+  background-color: #0a0a0d;
+  background-image:
+    radial-gradient(ellipse 90% 55% at 50% -15%, rgba(139, 92, 246, 0.14), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 85% 110%, rgba(236, 72, 153, 0.05), transparent 70%);
+  background-attachment: fixed;
+}
+
 /* Lock scroll on chat page only — dashboard needs to scroll */
 body:has(.chat-scroll) {
   overflow: hidden;
@@ -18,8 +27,61 @@ body:has(.chat-scroll) {
     @apply bg-gradient-to-r from-chat-primary to-chat-secondary bg-clip-text text-transparent;
   }
 
-  .gradient-bg {
-    @apply bg-gradient-to-br from-purple-900/20 via-pink-900/20 to-blue-900/20;
+  /* One-shot entrance for messages, cards, and hero blocks. Runs on mount
+     only — existing messages keep stable keys, so they never re-animate.
+     Fill mode must be `backwards`, not `both`: it still hides delay-staggered
+     elements before they start, but releases the animation's `transform: none`
+     at finish so hover transforms on the same element can apply. */
+  .anim-fade-up {
+    animation: fade-up 0.45s cubic-bezier(0.21, 1.02, 0.73, 1) backwards;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Typing indicator dots */
+.typing-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background-color: #71717a;
+  animation: dot-bounce 1.2s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes dot-bounce {
+  0%,
+  60%,
+  100% {
+    transform: none;
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade-up,
+  .typing-dot {
+    animation: none;
   }
 }
 
@@ -33,10 +95,10 @@ body:has(.chat-scroll) {
 }
 
 .chat-scroll::-webkit-scrollbar-thumb {
-  background: #3f3f46;
+  background: #2b2b34;
   border-radius: 3px;
 }
 
 .chat-scroll::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
+  background: #3d3d49;
 }
